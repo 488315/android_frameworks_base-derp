@@ -928,6 +928,10 @@ constructor(
             override fun onWifiScan(isScan: Boolean) {
                 setProgressBarVisible(isScan)
             }
+
+            override fun onHotspotChanged() {
+                updateContent(shouldUpdateMobileNetwork = true)
+            }
         }
 
     enum class InternetDetailsEvent(private val id: Int) : UiEventLogger.UiEventEnum {

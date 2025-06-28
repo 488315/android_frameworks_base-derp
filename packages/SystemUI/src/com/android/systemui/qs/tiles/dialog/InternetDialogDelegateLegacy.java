@@ -471,11 +471,11 @@ public class InternetDialogDelegateLegacy implements
                 mInternetDetailsContentController.getActiveAutoSwitchNonDdsSubId();
         internetContent.mShouldUpdateHotspot = shouldUpdateHotspot;
         if (shouldUpdateHotspot) {
-            internetContent.mIsHotspotAvailable = mInternetDialogController.isHotspotAvailable();
-            internetContent.mIsHotspotEnabled = mInternetDialogController.isHotspotEnabled();
-            internetContent.mIsHotspotTransient = mInternetDialogController.isHotspotTransient();
-            internetContent.mHotspotNumDevices = mInternetDialogController.getHotspotNumDevices();
-            internetContent.mIsDataSaverEnabled = mInternetDialogController.isDataSaverEnabled();
+            internetContent.mIsHotspotAvailable = mInternetDetailsContentController.isHotspotAvailable();
+            internetContent.mIsHotspotEnabled = mInternetDetailsContentController.isHotspotEnabled();
+            internetContent.mIsHotspotTransient = mInternetDetailsContentController.isHotspotTransient();
+            internetContent.mHotspotNumDevices = mInternetDetailsContentController.getHotspotNumDevices();
+            internetContent.mIsDataSaverEnabled = mInternetDetailsContentController.isDataSaverEnabled();
         }
         return internetContent;
     }
@@ -518,9 +518,9 @@ public class InternetDialogDelegateLegacy implements
                         dialog.getContext(), mDefaultDataSubId, isChecked, false);
             }
         });
-        mHotspotLayout.setOnClickListener(mInternetDialogController::launchHotspotSetting);
+        mHotspotLayout.setOnClickListener(mInternetDetailsContentController::launchHotspotSetting);
         mHotspotToggle.setOnCheckedChangeListener(
-                (buttonView, isChecked) -> mInternetDialogController.setHotspotEnabled(isChecked));
+                (buttonView, isChecked) -> mInternetDetailsContentController.setHotspotEnabled(isChecked));
         mConnectedWifListLayout.setOnClickListener(this::onClickConnectedWifi);
         mSeeAllLayout.setOnClickListener(this::onClickSeeMoreButton);
         mWiFiToggle.setOnClickListener(v -> {
@@ -889,7 +889,7 @@ public class InternetDialogDelegateLegacy implements
     }
 
     private CharSequence getHotspotTitle() {
-        final WifiManager wifiManager = mInternetDialogController.getWifiManager();
+        final WifiManager wifiManager = mInternetDetailsContentController.getWifiManager();
         if (wifiManager != null) {
             final SoftApConfiguration softApConfig = wifiManager.getSoftApConfiguration();
             if (softApConfig != null) {
