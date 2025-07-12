@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.core.graphics.drawable.toBitmap
 import com.android.systemui.common.shared.model.Icon
@@ -44,6 +45,27 @@ fun Icon(icon: Icon, modifier: Modifier = Modifier, tint: Color = LocalContentCo
                 tint,
             )
         }
-        is Icon.Resource -> Icon(painterResource(icon.res), contentDescription, modifier, tint)
+        is Icon.Resource -> {
+            val context = LocalContext.current
+            val drawable = context.getDrawable(icon.res)
+            if (drawable != null) {
+                // Convert drawable to bitmap to handle unsupported types
+                // This handles cases like StateListDrawable, LayerDrawable, etc.
+                Icon(
+                    remember(drawable) { drawable.toBitmap().asImageBitmap() },
+                    contentDescription,
+                    modifier,
+                    tint,
+                )
+            } else {
+                // Fallback to a default error icon if drawable loading fails
+                Icon(
+                    painterResource(android.R.drawable.ic_dialog_alert),
+                    contentDescription,
+                    modifier,
+                    tint,
+                )
+            }
+        }
     }
 }
