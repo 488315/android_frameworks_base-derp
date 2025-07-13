@@ -805,7 +805,7 @@ public class UdfpsController implements DozeReceiver, Dumpable {
         udfpsShell.setUdfpsOverlayController(mUdfpsOverlayController);
 
         if (isAnimationPackageInstalled()) {
-            mUdfpsAnimation = new UdfpsAnimation(mContext, mWindowManager, mSensorProps, mAuthController);
+            mUdfpsAnimation = new UdfpsAnimation(mContext, mWindowManager, mSensorProps, mAuthController, mKeyguardStateController);
         }
 
         updateUdfpsAnimation();
@@ -1221,7 +1221,7 @@ public class UdfpsController implements DozeReceiver, Dumpable {
                 mUdfpsAnimation.removeAnimation();
                 mUdfpsAnimation = null;
             }
-            mUdfpsAnimation = new UdfpsAnimation(mContext, mWindowManager, mSensorProps, mAuthController);
+            mUdfpsAnimation = new UdfpsAnimation(mContext, mWindowManager, mSensorProps, mAuthController, mKeyguardStateController);
             if (mUdfpsAnimation != null) {
                 mUdfpsAnimation.updatePosition();
             }
