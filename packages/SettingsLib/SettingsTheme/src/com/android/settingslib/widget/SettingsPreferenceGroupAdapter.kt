@@ -50,6 +50,10 @@ open class SettingsPreferenceGroupAdapter(preferenceGroup: PreferenceGroup) :
     private val syncRunnable = Runnable { updatePreferencesList() }
     
     private val excludedClasses = setOf(
+        "com.android.settingslib.widget.LayoutPreference",
+        "com.android.settingslib.widget.IllustrationPreference",
+        "com.android.settings.accessibility.TextReadingPreviewPreference",
+        "com.android.settings.accessibility.TextReadingResetPreference",
         "org.derpfest.ui.preference.DerpFestCardDarkModePreferenceBase",
         "org.derpfest.ui.preference.DerpFestCardPreference",
         "org.derpfest.ui.preference.DerpFestCardSwitchPreference",
