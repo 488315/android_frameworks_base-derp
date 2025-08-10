@@ -57,7 +57,7 @@ public class PreferredNetworkTile extends QSTileImpl<State> {
 
     public static final String TILE_SPEC = "preferred_network";
 
-    private final Icon mIcon = ResourceIcon.get(R.drawable.ic_preferred_network);
+    private final Icon mIcon = maybeLoadResourceIcon(R.drawable.ic_preferred_network);
 
     private final TelephonyManager mTelephonyManager;
 
