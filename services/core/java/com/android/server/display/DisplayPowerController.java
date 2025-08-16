@@ -2560,7 +2560,19 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
         mDisplayBrightnessController
                 .setPendingScreenBrightness(mDisplayBrightnessController
                         .getScreenBrightnessSetting());
+        
+        // Update pending auto brightness adjustments first
         mAutomaticBrightnessStrategy.updatePendingAutoBrightnessAdjustments();
+        
+        // Check if auto brightness adjustment has changed and trigger reset if needed
+        boolean adjustmentChanged = mAutomaticBrightnessStrategy.processPendingAutoBrightnessAdjustments();
+        if (adjustmentChanged && mAutomaticBrightnessController != null) {
+            if (DEBUG) {
+                Slog.d(mTag, "Auto brightness adjustment changed, resetting short term model");
+            }
+            mAutomaticBrightnessController.resetShortTermModel();
+        }
+        
         mAutomaticBrightnessStrategy.setAutoBrightnessOneShotEnabled(
                 getAutoBrightnessOneShotSetting());
         sendUpdatePowerState();
