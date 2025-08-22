@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="by_artist">%1$s від %2$s</string>
+  <!-- 5G toggle in Internet Dialog -->
+  <string name="enable_fiveg">Увімкнути 5G</string>
+  <!-- Face unlock -->
+  <string name="face_unlock_recognizing">Розпізнавання обличчя...</string>
+  <string name="gigabitspersecond_short">Гбіт/с</string>
+  <string name="gigabytespersecond_short">ГБ/с</string>
+  <!-- Label for current user in power menu options dialog -->
+  <string name="global_action_restart_systemui">SystemUI</string>
+  <!-- Status bar network traffic monitor strings -->
+  <string name="kilobitspersecond_short">кбіт/с</string>
+  <string name="kilobytespersecond_short">кБ/с</string>
+  <string name="megabitspersecond_short">Мбіт/с</string>
+  <string name="megabytespersecond_short">МБ/с</string>
+  <!-- Auto reboot Suggestion/Reminder -->
+  <string name="notification_channel_reboot_suggestion">Нагадування про перезавантаження</string>
+  <string name="notification_channel_reboot_suggestion_description">Сповіщення про пропозиції перезавантаження</string>
+  <!-- Island notification -->
+  <string name="now_playing_on">Зараз грає на %1$s</string>
+  <!-- DataSwitch Tile -->
+  <string name="qs_data_switch_label">Поміняти SIM даних</string>
+  <!-- DerpFest Tile -->
+  <string name="quick_derpfest_label">Налаштування DerpFest</string>
+  <string name="quick_derpfest_toast">ЛОЛ, ти справді думав, що цей довгий клік тебе кудись приведе!!!</string>
+  <string name="quick_settings_compass_E">Е</string>
+  <string name="quick_settings_compass_init">Ініціалізація\u2026</string>
+  <!-- Compass QS Tile -->
+  <string name="quick_settings_compass_label">Компас</string>
+  <string name="quick_settings_compass_N">Пн</string>
+  <string name="quick_settings_compass_NE">ПнСх</string>
+  <string name="quick_settings_compass_NW">ПнЗх</string>
+  <string name="quick_settings_compass_S">Пд</string>
+  <string name="quick_settings_compass_SE">ПдСх</string>
+  <string name="quick_settings_compass_SW">ПдЗх</string>
+  <string name="quick_settings_compass_value">%1$d\u00b0 %2$s</string>
+  <string name="quick_settings_compass_W">Зх</string>
+  <!-- CPUInfo tile -->
+  <string name="quick_settings_cpuinfo_label">Інформація про процесор</string>
+  <!-- QuickSettings: InternetDialog: Summary for how many devices are connected to the hotspot [CHAR LIMIT=NONE] -->
+  <plurals name="quick_settings_internet_hotspot_summary_num_devices">
+    <item quantity="one">Підключено %d пристрій</item>
+    <item quantity="few">Підключено %d пристроя</item>
+    <item quantity="many">Підключено %d пристроїв</item>
+    <item quantity="other">Підключено %d пристроїв</item>
+  </plurals>
+  <!-- Language toggle tile -->
+  <string name="quick_settings_locale_label">Мова</string>
+  <string name="quick_settings_locale_more_locales_toast">Спочатку налаштуйте кілька мов</string>
+  <!-- Music tile -->
+  <string name="quick_settings_music_label">Музика</string>
+  <string name="quick_settings_music_last_played">В останнє програно: %1$s</string>
+  <string name="quick_settings_music_loading">Завантаження...</string>
+  <string name="quick_settings_music_no_player">Немає підключеного плеєра</string>
+  <string name="quick_settings_music_pause">Пауза</string>
+  <string name="quick_settings_music_play">Грати</string>
+  <string name="quick_settings_preferred_network_3g">3G</string>
+  <!-- Preferred network tile -->
+  <string name="quick_settings_preferred_network_label">Бажана мережа</string>
+  <string name="quick_settings_preferred_network_lte">4G / LTE</string>
+  <string name="quick_settings_preferred_network_nr">5G / NR</string>
+  <string name="quick_settings_preferred_network_unsupported">Не підтримується</string>
+  <!-- Sound QS Tile -->
+  <string name="quick_settings_sound_label">Звук</string>
+  <string name="quick_settings_sound_ring">Дзвінок</string>
+  <string name="quick_settings_sound_silent">Тиша</string>
+  <string name="quick_settings_sound_vibrate">Вібрація</string>
+  <string name="reboot_suggestion_description">Ваш пристрій увімкнено вже більше тижня. Рекомендовано перезапуск.</string>
+  <string name="reboot_suggestion_now">Перезавантаження</string>
+  <string name="reboot_suggestion_title">Нагадування про перезавантаження</string>
+  <!-- Refresh rate QS tile -->
+  <string name="refresh_rate_tile_label">Частота оновлення</string>
+  <string name="refresh_rate_unknown">Невідомо</string>
+  <!-- Label for UI element which allows to use lens on screenshot [CHAR LIMIT=30] -->
+  <string name="screenshot_lens_label">Лінза</string>
+  <!-- Screenshot Tile -->
+  <string name="screenshot_long_press">Тривале натискання – вибрана область</string>
+  <!-- Name of the HD calling status bar icon. -->
+  <string name="status_bar_hd_calling">HD-дзвінки (VoLTE/VoNR)</string>
+  <!-- Name of the nfc status bar icon. -->
+  <string name="status_bar_nfc">NFC</string>
+  <!-- Name of the roaming status bar icon. -->
+  <string name="status_bar_roaming">Індикатор роумінгу</string>
+  <!-- Name of the VoWiFi status bar icon. -->
+  <string name="status_bar_vowifi">Wi-Fi-дзвінки (VoWiFi)</string>
+  <!-- WiFi standard numbering on statusbar -->
+  <string name="status_bar_wifi_standard">Стандартний номер Wi-Fi</string>
+  <!-- Data usage info in QS footer -->
+  <string name="usage_data">використано сьогодні</string>
+  <string name="usage_data_default_suffix">Дані</string>
+  <string name="usage_wifi_default_suffix">Wi-Fi</string>
+  <string name="usb_use">Використовувати USB для</string>
+  <!-- USB function dialog - copied from Settings -->
+  <string name="usb_use_charging_only">Без передачі даних</string>
+  <string name="usb_use_file_transfers">Передача файлів</string>
+  <string name="usb_use_MIDI">MIDI</string>
+  <string name="usb_use_photo_transfers">PTP</string>
+  <string name="usb_use_tethering">USB-модем</string>
+  <string name="usb_use_uvc_webcam">Веб-камера</string>
+</resources>
