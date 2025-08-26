@@ -25,6 +25,7 @@ import static android.os.PowerManager.WAKE_REASON_DISPLAY_GROUP_ADDED;
 import static android.os.PowerManager.WAKE_REASON_DISPLAY_GROUP_TURNED_ON;
 import static android.os.PowerManagerInternal.MODE_DEVICE_IDLE;
 import static android.os.PowerManagerInternal.MODE_DISPLAY_INACTIVE;
+import static android.os.PowerManagerInternal.MODE_SUSTAINED_PERFORMANCE;
 import static android.os.PowerManagerInternal.WAKEFULNESS_ASLEEP;
 import static android.os.PowerManagerInternal.WAKEFULNESS_AWAKE;
 import static android.os.PowerManagerInternal.WAKEFULNESS_DOZING;
@@ -46,6 +47,7 @@ import android.annotation.Nullable;
 import android.annotation.RequiresPermission;
 import android.annotation.UserIdInt;
 import android.app.ActivityManager;
+import android.app.GameManager;
 import android.app.SynchronousUserSwitchObserver;
 import android.app.compat.CompatChanges;
 import android.compat.annotation.ChangeId;
@@ -329,6 +331,7 @@ public final class PowerManagerService extends SystemService
             IntArray.wrap(new int[]{Display.DEFAULT_DISPLAY_GROUP});
 
     private static final int DEFAULT_BUTTON_ON_DURATION = 5 * 1000;
+    private static final long PERFORMANCE_PROFILE_COOLDOWN_MS = 1500;
 
     private final Context mContext;
     private final ServiceThread mHandlerThread;
@@ -350,12 +353,14 @@ public final class PowerManagerService extends SystemService
     private final PermissionCheckerWrapper mPermissionCheckerWrapper;
     private final PowerPropertiesWrapper mPowerPropertiesWrapper;
     private final DeviceConfigParameterProvider mDeviceConfigProvider;
+    private final PerformanceProfileController mPerformanceProfileController;
     // True if battery saver is supported on this device.
     private final boolean mBatterySaverSupported;
 
     private final PowerManagerFlags mFeatureFlags;
 
     private boolean mDisableScreenWakeLocksWhileCached;
+    private long mLastPerformanceProfileApply;
 
     private LightsManager mLightsManager;
     private BatteryManagerInternal mBatteryManagerInternal;
@@ -1290,6 +1295,8 @@ public final class PowerManagerService extends SystemService
         mPermissionCheckerWrapper = mInjector.createPermissionCheckerWrapper();
         mPowerPropertiesWrapper = mInjector.createPowerPropertiesWrapper();
         mDeviceConfigProvider = mInjector.createDeviceConfigParameterProvider();
+        mPerformanceProfileController =
+                new PerformanceProfileController(mContext, this::onPerformanceProfileChanged);
 
         mPowerGroupWakefulnessChangeListener = new PowerGroupWakefulnessChangeListener();
 
@@ -4833,6 +4840,38 @@ public final class PowerManagerService extends SystemService
         return mNativeWrapper.nativeSetPowerMode(mode, enabled);
     }
 
+    private void onPerformanceProfileChanged(int mode) {
+        applyPerformanceProfile(mode);
+    }
+
+    private void applyPerformanceProfile(int mode) {
+        long now = mClock.uptimeMillis();
+        if (now - mLastPerformanceProfileApply < PERFORMANCE_PROFILE_COOLDOWN_MS) {
+            return;
+        }
+        mLastPerformanceProfileApply = now;
+        if (isTopGame()) {
+            return;
+        }
+        setPowerModeInternal(MODE_SUSTAINED_PERFORMANCE, mode == 1);
+        Intent intent = new Intent(PowerManager.ACTION_PERFORMANCE_PROFILE_CHANGED);
+        intent.addFlags(Intent.FLAG_RECEIVER_REGISTERED_ONLY
+                | Intent.FLAG_RECEIVER_REPLACE_PENDING);
+        intent.putExtra(PowerManager.EXTRA_PERFORMANCE_PROFILE_MODE, mode);
+        mContext.sendStickyBroadcastAsUser(intent, UserHandle.ALL);
+    }
+
+    private boolean isTopGame() {
+        ActivityManager am = mContext.getSystemService(ActivityManager.class);
+        if (am == null) return false;
+        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
+        if (tasks == null || tasks.isEmpty()) return false;
+        String pkg = tasks.get(0).topActivity.getPackageName();
+        GameManager gm = mContext.getSystemService(GameManager.class);
+        if (gm == null) return false;
+        return gm.getGameMode(pkg) != GameManager.GAME_MODE_UNSUPPORTED;
+    }
+
     @VisibleForTesting
     boolean wasDeviceIdleForInternal(long ms) {
         synchronized (mLock) {
@@ -7104,6 +7143,33 @@ public final class PowerManagerService extends SystemService
             final long ident = Binder.clearCallingIdentity();
             try {
                 return getLastSleepReasonInternal();
+            } finally {
+                Binder.restoreCallingIdentity(ident);
+            }
+        }
+
+        @Override // Binder call
+        public int getPerformanceProfileMode() {
+            final long ident = Binder.clearCallingIdentity();
+            try {
+                return mPerformanceProfileController.getMode();
+            } finally {
+                Binder.restoreCallingIdentity(ident);
+            }
+        }
+
+        @Override // Binder call
+        public void setPerformanceProfileMode(int mode) {
+            if (mContext.checkCallingOrSelfPermission(android.Manifest.permission.DEVICE_POWER)
+                    != PackageManager.PERMISSION_GRANTED
+                    && mContext.checkCallingOrSelfPermission(
+                            android.Manifest.permission.WRITE_SECURE_SETTINGS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                throw new SecurityException("Requires DEVICE_POWER or WRITE_SECURE_SETTINGS");
+            }
+            final long ident = Binder.clearCallingIdentity();
+            try {
+                mPerformanceProfileController.setMode(mode);
             } finally {
                 Binder.restoreCallingIdentity(ident);
             }

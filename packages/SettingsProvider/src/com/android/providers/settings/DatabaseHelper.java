@@ -213,6 +213,11 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
         int upgradeVersion = oldVersion;
 
+        if (mUserHandle == UserHandle.USER_SYSTEM) {
+            db.execSQL("INSERT OR IGNORE INTO global(name,value) VALUES('"
+                    + Settings.Global.PERFORMANCE_PROFILE_MODE + "','0')");
+        }
+
         // Pattern for upgrade blocks:
         //
         //    if (upgradeVersion == [the DATABASE_VERSION you set] - 1) {
@@ -2379,6 +2384,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
                     R.string.def_trusted_sound);
             loadIntegerSetting(stmt, Settings.Global.POWER_SOUNDS_ENABLED,
                     R.integer.def_power_sounds_enabled);
+            loadSetting(stmt, Settings.Global.PERFORMANCE_PROFILE_MODE, 0);
             loadStringSetting(stmt, Settings.Global.LOW_BATTERY_SOUND,
                     R.string.def_low_battery_sound);
             loadIntegerSetting(stmt, Settings.Global.DOCK_SOUNDS_ENABLED,
