@@ -60,8 +60,12 @@ public final class PerformanceProfileController {
     /** Last known profile mode. */
     private volatile int mMode;
 
+    /** True once observers are registered. */
+    private boolean mStarted;
+
     /**
-     * Constructs a controller and starts observing sources of truth.
+     * Constructs a controller. Call {@link #start()} after system is ready to begin observing
+     * sources of truth.
      *
      * @param context non-null context
      * @param listener optional listener for mode changes, may be {@code null}
@@ -91,8 +95,13 @@ public final class PerformanceProfileController {
                         l.onModeChanged(mMode);
                     }
                 };
+    }
 
-        // Register observers.
+    /** Starts observing settings and DeviceConfig. */
+    public void start() {
+        if (mStarted) {
+            return;
+        }
         mResolver.registerContentObserver(
                 Settings.Global.getUriFor(Settings.Global.PERFORMANCE_PROFILE_MODE),
                 false,
@@ -108,20 +117,23 @@ public final class PerformanceProfileController {
 
         // Seed initial state.
         updateMode();
+        mStarted = true;
     }
 
     /**
      * Unregisters observers. Must be called when the controller is no longer needed.
      */
     public void destroy() {
+        if (!mStarted) {
+            return;
+        }
         if (mObserver != null) {
             mResolver.unregisterContentObserver(mObserver);
-            mObserver = null;
         }
         if (mDeviceConfigListener != null) {
             DeviceConfig.removeOnPropertiesChangedListener(mDeviceConfigListener);
-            mDeviceConfigListener = null;
         }
+        mStarted = false;
     }
 
     private void updateMode() {

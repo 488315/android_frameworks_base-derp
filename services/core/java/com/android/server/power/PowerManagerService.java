@@ -1539,6 +1539,7 @@ public final class PowerManagerService extends SystemService
 
         final ContentResolver resolver = mContext.getContentResolver();
         mConstants.start(resolver);
+        mPerformanceProfileController.start();
 
         if (mBatterySaverSupported) {
             mBatterySaverStateMachine.systemReady();
