@@ -2,12 +2,12 @@ package com.android.systemui.power
 
 import android.os.Bundle
 import android.os.PowerManager
-import androidx.preference.PreferenceFragment
+import androidx.preference.PreferenceFragmentCompat
 import com.android.settingslib.widget.SelectorWithWidgetPreference
 import com.android.systemui.res.R
 
 /** Settings screen for selecting the performance profile mode. */
-class PerformanceProfileFragment : PreferenceFragment(),
+class PerformanceProfileFragment : PreferenceFragmentCompat(),
     SelectorWithWidgetPreference.OnClickListener {
 
     private lateinit var standardPref: SelectorWithWidgetPreference

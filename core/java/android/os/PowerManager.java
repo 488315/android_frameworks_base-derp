@@ -3385,6 +3385,7 @@ public final class PowerManager {
      * Returns the current performance profile mode.
      * @hide
      */
+    @SuppressLint("UnflaggedApi")
     @SystemApi(client = SystemApi.Client.MODULE_LIBRARIES)
     public @IntRange(from = 0, to = 1) int getPerformanceProfileMode() {
         try {
@@ -3398,6 +3399,7 @@ public final class PowerManager {
      * Sets the performance profile mode.
      * @hide
      */
+    @SuppressLint("UnflaggedApi")
     @SystemApi(client = SystemApi.Client.MODULE_LIBRARIES)
     @RequiresPermission(anyOf = {
             android.Manifest.permission.DEVICE_POWER,
