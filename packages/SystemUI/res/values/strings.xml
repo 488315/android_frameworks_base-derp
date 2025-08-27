@@ -2474,6 +2474,9 @@
     <!-- Accessibility description for data saver being on [CHAR LIMIT=NONE] -->
     <string name="accessibility_data_saver_on">Data Saver is on</string>
 
+    <!-- Accessibility description for light performance profile being enabled [CHAR LIMIT=NONE] -->
+    <string name="accessibility_performance_profile_on">Light performance profile is on</string>
+
     <!-- Accessibility description for data saver being off [CHAR LIMIT=NONE] -->
 
     <!-- Label for feature switch [CHAR LIMIT=30] -->
