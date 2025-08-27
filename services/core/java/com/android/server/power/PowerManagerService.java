@@ -7171,6 +7171,9 @@ public final class PowerManagerService extends SystemService
                     != PackageManager.PERMISSION_GRANTED) {
                 throw new SecurityException("Requires DEVICE_POWER or WRITE_SECURE_SETTINGS");
             }
+            if (mode < 0 || mode > 1) {
+                throw new IllegalArgumentException("mode must be 0 or 1");
+            }
             final long ident = Binder.clearCallingIdentity();
             try {
                 mPerformanceProfileController.setMode(mode);

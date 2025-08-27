@@ -3406,6 +3406,9 @@ public final class PowerManager {
             android.Manifest.permission.WRITE_SECURE_SETTINGS
     })
     public void setPerformanceProfileMode(@IntRange(from = 0, to = 1) int mode) {
+        if (mode < 0 || mode > 1) {
+            throw new IllegalArgumentException("mode must be 0 or 1");
+        }
         try {
             mService.setPerformanceProfileMode(mode);
         } catch (RemoteException e) {

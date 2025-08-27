@@ -16,11 +16,11 @@ class PerformanceProfileFragment : PreferenceFragmentCompat(),
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.performance_profile_settings)
-        standardPref = findPreference("performance_profile_standard")!!
-        lightPref = findPreference("performance_profile_light")!!
+        standardPref = requireNotNull(findPreference("performance_profile_standard"))
+        lightPref = requireNotNull(findPreference("performance_profile_light"))
         standardPref.setOnClickListener(this)
         lightPref.setOnClickListener(this)
-        powerManager = requireContext().getSystemService(PowerManager::class.java)
+        powerManager = requireContext().getSystemService(PowerManager::class.java)!!
     }
 
     override fun onResume() {
@@ -30,7 +30,11 @@ class PerformanceProfileFragment : PreferenceFragmentCompat(),
     }
 
     override fun onRadioButtonClicked(emiter: SelectorWithWidgetPreference) {
-        val mode = if (emiter === standardPref) 0 else 1
+        val mode = when (emiter) {
+            standardPref -> 0
+            lightPref -> 1
+            else -> return
+        }
         powerManager.setPerformanceProfileMode(mode)
         updateChecks(mode)
     }

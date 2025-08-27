@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.DeviceConfig;
 import android.provider.Settings;
+import android.util.MathUtils;
 
 import java.util.Objects;
 
@@ -139,6 +140,7 @@ public final class PerformanceProfileController {
     private void updateMode() {
         int mode =
                 Settings.Global.getInt(mResolver, Settings.Global.PERFORMANCE_PROFILE_MODE, 0);
+        mode = MathUtils.constrain(mode, 0, 1);
         if (mode != mMode) {
             mMode = mode;
             Listener l = mListener;
@@ -159,6 +161,9 @@ public final class PerformanceProfileController {
      * <p>Caller must hold appropriate permission to write Global settings.</p>
      */
     public void setMode(int mode) {
+        if (mode < 0 || mode > 1) {
+            throw new IllegalArgumentException("mode must be 0 or 1");
+        }
         Settings.Global.putInt(mResolver, Settings.Global.PERFORMANCE_PROFILE_MODE, mode);
         // Optimistically reflect local state; Settings observer will confirm.
         if (mMode != mode) {
