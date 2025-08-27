@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.android.settingslib.widget.SelectorWithWidgetPreference
+        android:key="performance_profile_standard"
+        android:title="@string/performance_optimization_option_standard"
+        android:summary="@string/performance_optimization_option_standard_description" />
+
+    <com.android.settingslib.widget.SelectorWithWidgetPreference
+        android:key="performance_profile_light"
+        android:title="@string/performance_optimization_option_comfort"
+        android:summary="@string/performance_optimization_option_comfort_description" />
+
+    <com.android.settingslib.widget.FooterPreference
+        android:key="performance_profile_footer"
+        android:title="@string/option_not_applied_game_description" />
+
+</PreferenceScreen>

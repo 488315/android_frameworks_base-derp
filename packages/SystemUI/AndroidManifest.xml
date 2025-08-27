@@ -633,6 +633,12 @@
             </intent-filter>
         </activity-alias>
 
+        <activity
+            android:name=".power.PerformanceProfileActivity"
+            android:exported="false"
+            android:label="@string/performance_optimization"
+            android:theme="@style/Theme.SubSettingsBase" />
+
         <!-- Callback for deleting screenshot notification -->
         <receiver android:name=".screenshot.DeleteScreenshotReceiver"
             android:exported="false" />

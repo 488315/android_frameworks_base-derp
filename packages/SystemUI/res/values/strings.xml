@@ -2477,6 +2477,19 @@
     <!-- Accessibility description for light performance profile being enabled [CHAR LIMIT=NONE] -->
     <string name="accessibility_performance_profile_on">Light performance profile is on</string>
 
+    <!-- Performance profile settings -->
+    <string name="performance_optimization">Performance profile</string>
+    <string name="performance_optimization_option_comfort">Light</string>
+    <string name="performance_optimization_option_comfort_description">
+        Prioritizes battery life and cooling efficiency over processing speed.
+    </string>
+    <string name="performance_optimization_option_standard">Standard</string>
+    <string name="performance_optimization_option_standard_description">
+        Provides the recommended balance between processing speed, battery life, and cooling efficiency.
+    </string>
+    <string name="option_not_applied_game_description">This setting doesn't apply to games.</string>
+    <string name="performance_profile_quick_setting">Performance profile</string>
+
     <!-- Accessibility description for data saver being off [CHAR LIMIT=NONE] -->
 
     <!-- Label for feature switch [CHAR LIMIT=30] -->
