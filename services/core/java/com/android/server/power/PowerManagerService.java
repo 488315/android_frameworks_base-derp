@@ -25,6 +25,7 @@ import static android.os.PowerManager.WAKE_REASON_DISPLAY_GROUP_ADDED;
 import static android.os.PowerManager.WAKE_REASON_DISPLAY_GROUP_TURNED_ON;
 import static android.os.PowerManagerInternal.MODE_DEVICE_IDLE;
 import static android.os.PowerManagerInternal.MODE_DISPLAY_INACTIVE;
+import static android.os.PowerManagerInternal.MODE_LOW_POWER;
 import static android.os.PowerManagerInternal.MODE_SUSTAINED_PERFORMANCE;
 import static android.os.PowerManagerInternal.WAKEFULNESS_ASLEEP;
 import static android.os.PowerManagerInternal.WAKEFULNESS_AWAKE;
@@ -4854,7 +4855,9 @@ public final class PowerManagerService extends SystemService
         if (isTopGame()) {
             return;
         }
-        setPowerModeInternal(MODE_SUSTAINED_PERFORMANCE, mode == 1);
+        boolean light = mode == 1;
+        setPowerModeInternal(MODE_LOW_POWER, light);
+        setPowerModeInternal(MODE_SUSTAINED_PERFORMANCE, light);
         Intent intent = new Intent(PowerManager.ACTION_PERFORMANCE_PROFILE_CHANGED);
         intent.addFlags(Intent.FLAG_RECEIVER_REGISTERED_ONLY
                 | Intent.FLAG_RECEIVER_REPLACE_PENDING);
