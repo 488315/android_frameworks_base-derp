@@ -113,6 +113,7 @@
     <protected-broadcast android:name="android.os.action.LOW_POWER_STANDBY_POLICY_CHANGED" />
     <protected-broadcast android:name="android.os.action.LOW_POWER_STANDBY_PORTS_CHANGED" />
     <protected-broadcast android:name="android.os.action.ENHANCED_DISCHARGE_PREDICTION_CHANGED" />
+    <protected-broadcast android:name="android.os.action.PERFORMANCE_PROFILE_CHANGED" />
 
     <!-- @deprecated This is rarely used and will be phased out soon. -->
     <protected-broadcast android:name="android.os.action.SCREEN_BRIGHTNESS_BOOST_CHANGED" />
