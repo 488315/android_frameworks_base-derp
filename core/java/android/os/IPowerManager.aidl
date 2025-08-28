@@ -41,6 +41,9 @@ interface IPowerManager
     // Functionally identical to setPowerMode, but returns whether the call was successful
     boolean setPowerModeChecked(int mode, boolean enabled);
 
+    int getPerformanceProfileMode();
+    void setPerformanceProfileMode(int mode);
+
     void updateWakeLockWorkSource(IBinder lock, in WorkSource ws, String historyTag);
     void updateWakeLockCallback(IBinder lock, IWakeLockCallback callback);
     @UnsupportedAppUsage

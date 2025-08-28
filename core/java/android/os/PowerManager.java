@@ -3382,6 +3382,41 @@ public final class PowerManager {
     }
 
     /**
+     * Returns the current performance profile mode.
+     * @hide
+     */
+    @SuppressLint("UnflaggedApi")
+    @SystemApi(client = SystemApi.Client.MODULE_LIBRARIES)
+    public @IntRange(from = 0, to = 1) int getPerformanceProfileMode() {
+        try {
+            return mService.getPerformanceProfileMode();
+        } catch (RemoteException e) {
+            throw e.rethrowFromSystemServer();
+        }
+    }
+
+    /**
+     * Sets the performance profile mode.
+     * @hide
+     */
+    @SuppressLint("UnflaggedApi")
+    @SystemApi(client = SystemApi.Client.MODULE_LIBRARIES)
+    @RequiresPermission(anyOf = {
+            android.Manifest.permission.DEVICE_POWER,
+            android.Manifest.permission.WRITE_SECURE_SETTINGS
+    })
+    public void setPerformanceProfileMode(@IntRange(from = 0, to = 1) int mode) {
+        if (mode < 0 || mode > 1) {
+            throw new IllegalArgumentException("mode must be 0 or 1");
+        }
+        try {
+            mService.setPerformanceProfileMode(mode);
+        } catch (RemoteException e) {
+            throw e.rethrowFromSystemServer();
+        }
+    }
+
+    /**
      * Intent that is broadcast when the enhanced battery discharge prediction changes. The new
      * value can be retrieved via {@link #getBatteryDischargePrediction()}.
      * This broadcast is only sent to registered receivers.
@@ -3408,6 +3443,19 @@ public final class PowerManager {
     @SdkConstant(SdkConstant.SdkConstantType.BROADCAST_INTENT_ACTION)
     public static final String ACTION_POWER_SAVE_MODE_CHANGED_INTERNAL
             = "android.os.action.POWER_SAVE_MODE_CHANGED_INTERNAL";
+
+    /**
+     * Intent broadcast when the performance profile mode changes.
+     */
+    @SdkConstant(SdkConstant.SdkConstantType.BROADCAST_INTENT_ACTION)
+    public static final String ACTION_PERFORMANCE_PROFILE_CHANGED =
+            "android.os.action.PERFORMANCE_PROFILE_CHANGED";
+
+    /**
+     * Extra for {@link #ACTION_PERFORMANCE_PROFILE_CHANGED} containing the new mode.
+     */
+    public static final String EXTRA_PERFORMANCE_PROFILE_MODE =
+            "android.os.extra.PERFORMANCE_PROFILE_MODE";
 
     /**
      * Intent that is broadcast when the state of {@link #isDeviceIdleMode()} changes.

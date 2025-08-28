@@ -1787,3 +1787,7 @@ UnflaggedApi: android.os.IpcDataCache#MODULE_TELEPHONY:
     New API must be flagged with @FlaggedApi: field android.os.IpcDataCache.MODULE_TELEPHONY
 UnflaggedApi: android.provider.Settings.Config#getAllStrings():
     New API must be flagged with @FlaggedApi: method android.provider.Settings.Config.getAllStrings()
+UnflaggedApi: android.os.PowerManager#getPerformanceProfileMode():
+    New API must be flagged with @FlaggedApi: method android.os.PowerManager.getPerformanceProfileMode()
+UnflaggedApi: android.os.PowerManager#setPerformanceProfileMode(int):
+    New API must be flagged with @FlaggedApi: method android.os.PowerManager.setPerformanceProfileMode(int)

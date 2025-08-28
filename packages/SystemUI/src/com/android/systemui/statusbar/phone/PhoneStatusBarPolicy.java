@@ -45,6 +45,7 @@ import android.os.Process;
 import android.os.RemoteException;
 import android.os.UserHandle;
 import android.os.UserManager;
+import android.os.PowerManager;
 import android.provider.Settings;
 import android.provider.Settings.System;
 import android.provider.Settings.Global;
@@ -135,6 +136,7 @@ public class PhoneStatusBarPolicy
     private final String mSlotRotate;
     private final String mSlotHeadset;
     private final String mSlotDataSaver;
+    private final String mSlotPerformanceProfile;
     private final String mSlotLocation;
     private final String mSlotMicrophone;
     private final String mSlotCamera;
@@ -266,6 +268,8 @@ public class PhoneStatusBarPolicy
         mSlotRotate = resources.getString(com.android.internal.R.string.status_bar_rotate);
         mSlotHeadset = resources.getString(com.android.internal.R.string.status_bar_headset);
         mSlotDataSaver = resources.getString(com.android.internal.R.string.status_bar_data_saver);
+        mSlotPerformanceProfile = resources.getString(
+                com.android.internal.R.string.status_bar_performance_profile);
         mSlotLocation = resources.getString(com.android.internal.R.string.status_bar_location);
         mSlotMicrophone = resources.getString(com.android.internal.R.string.status_bar_microphone);
         mSlotCamera = resources.getString(com.android.internal.R.string.status_bar_camera);
@@ -295,6 +299,7 @@ public class PhoneStatusBarPolicy
         filter.addAction(Intent.ACTION_PROFILE_ACCESSIBLE);
         filter.addAction(Intent.ACTION_PROFILE_INACCESSIBLE);
         filter.addAction(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED);
+        filter.addAction(PowerManager.ACTION_PERFORMANCE_PROFILE_CHANGED);
         mBroadcastDispatcher.registerReceiverWithHandler(mIntentReceiver, filter, mHandler);
         Observer<Integer> observer = ringer -> mHandler.post(this::updateVolumeZen);
 
@@ -349,6 +354,12 @@ public class PhoneStatusBarPolicy
         mIconController.setIcon(mSlotDataSaver, R.drawable.stat_sys_data_saver,
                 mResources.getString(R.string.accessibility_data_saver_on));
         mIconController.setIconVisibility(mSlotDataSaver, false);
+
+        // performance profile
+        mIconController.setIcon(mSlotPerformanceProfile, R.drawable.stat_sys_performance_profile,
+                mResources.getString(R.string.accessibility_performance_profile_on));
+        mIconController.setIconVisibility(mSlotPerformanceProfile, false);
+        updatePerformanceProfile();
 
 
         // privacy items
@@ -508,6 +519,13 @@ public class PhoneStatusBarPolicy
 
     private final void updateNfc() {
         mIconController.setIconVisibility(mSlotNfc, getAdapter() != null && getAdapter().isEnabled());
+    }
+
+    private void updatePerformanceProfile() {
+        int mode = Settings.Global.getInt(
+                mContext.getContentResolver(),
+                Settings.Global.PERFORMANCE_PROFILE_MODE, 0);
+        mIconController.setIconVisibility(mSlotPerformanceProfile, mode == 1);
     }
 
     private void updateVolumeZen() {
@@ -968,6 +986,9 @@ public class PhoneStatusBarPolicy
                     break;
                 case NfcAdapter.ACTION_ADAPTER_STATE_CHANGED:
                     updateNfc();
+                    break;
+                case PowerManager.ACTION_PERFORMANCE_PROFILE_CHANGED:
+                    updatePerformanceProfile();
                     break;
             }
         }

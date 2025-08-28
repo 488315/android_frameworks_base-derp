@@ -14498,6 +14498,14 @@ public final class Settings {
         public static final String POWER_SOUNDS_ENABLED = "power_sounds_enabled";
 
         /**
+         * User selected performance profile mode.
+         * <p>Type: int. 0 = standard, 1 = light.</p>
+         * @hide
+         */
+        @Readable
+        public static final String PERFORMANCE_PROFILE_MODE = "performance_profile_mode";
+
+        /**
          * URI for the "wireless charging started" sound.
          * @hide
          */
